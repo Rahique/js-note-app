@@ -3,6 +3,17 @@ const inputEL = document.querySelector(".input");
 const printEl = document.querySelector(".content");
 const saveButtonEl = document.querySelector(".save__button");
 const deleteButtonEl = document.querySelector(".delete__button");
+const tabButtonEl = document.querySelector(".tab__button");
+
+tabButtonEl.addEventListener("click", () => {
+  // chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {});
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    myLeads.push(tabs[0].url);
+    render(myLeads);
+    localStorage.setItem("myLeads", JSON.stringify(myLeads));
+  });
+});
+
 // -----------------------------------------------------
 const gettingData = JSON.parse(localStorage.getItem("dataStore"));
 
@@ -23,7 +34,7 @@ function render(leads) {
   }
   printEl.innerHTML = listItem;
 }
-deleteButtonEl.addEventListener("dblclick", () => {
+deleteButtonEl.addEventListener("click", () => {
   printEl.innerHTML = null;
   localStorage.clear();
   myLeads = [];
